@@ -1,0 +1,33 @@
+package example;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.PageFactory;
+import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
+
+public class Logout{
+	public static WebDriver driver;
+	@BeforeClass
+	public void beforeClass() {
+		  driver=SetEnvironment.driver;
+	}
+  @Test(dependsOnMethods={"submitButton"})
+  public void clickLogout() {
+	  driver.findElement(By.xpath("//button[contains(@class,'logout')]")).click();
+  }
+  @Test(dependsOnMethods= {"clickLogout"})
+  public void verifyLogout() {
+	  String sign[]=driver.findElement(By.xpath("//form[contains(@class,'form')]/h1")).getText().split(" ");
+	  int flag=0;
+	  for(String s:sign) {
+		  if(s.contains("Sign")) {
+			  flag++;
+		  }
+	  }
+	  
+	  Assert.assertEquals(true, flag==1);
+  }
+}
